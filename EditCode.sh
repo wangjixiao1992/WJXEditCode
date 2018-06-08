@@ -1,7 +1,7 @@
 #!/bin/bash
 #============== 路径信息 ========================#
 #工程名
-project_name=Ascents
+project_name=xxxxxx
 #打包模式
 #工程绝对路径
 project_path=$(dirname $0)
