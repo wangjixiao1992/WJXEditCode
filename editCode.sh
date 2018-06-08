@@ -10,7 +10,7 @@ folder_path=${project_path}/${project_name}
 #替换文本路径
 place_path=${project_path}/Pods/${project_name}
 #文本标记
-number=4
+number=10
 
 # 添加代码便利
 function indesertFolderRead_source_file_recursively {
@@ -37,7 +37,7 @@ function insertCode_source_file_recursively {
     code=$(($RANDOM%${number}))
     sed -i -r '$d' $1
     echo "#pragma mark - 代码添加开始" >> $1
-    sed -i -r '/#pragma mark - 代码添加开始/r '${place_path}/place${code}.m'' $1
+    sed -i -r '/#pragma mark - 代码添加开始/r '${place_path}/place${code}.text'' $1
     echo "//代码添加结束" >> $1
     echo "@end" >> $1
     implement_source_file_array[$implement_source_file_count]=${itemPath}
