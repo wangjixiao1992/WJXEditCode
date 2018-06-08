@@ -11,7 +11,7 @@
     platform :ios, '8.0'
     
     target 'TargetName' do
-    pod 'WJXEditCode', '~> 1.0.0'
+    pod 'WJXEditCode', '~> 1.0.2'
     end
 
    ## 演示代码
@@ -27,7 +27,12 @@
     
     /////////////////0////////////////////
     }
+    
 
+   ## 使用方法
+   使用终端进入WJXEditCode文件件
+   执行:sh editCode.sh
+   
    ## 联系我们
    如有疑问请发送邮件.谢谢~
    15037535383@163.com
