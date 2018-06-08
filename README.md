@@ -4,14 +4,14 @@
     批量添加代码,降低重复率!
 
    ## 版本
-    1.0.7
+    1.0.8
     
    ## 版本
     source 'https://github.com/wangjixiao1992/WJXEditCode.git'
     platform :ios, '8.0'
     
     target 'TargetName' do
-    pod 'WJXEditCode', '~> 1.0.7'
+    pod 'WJXEditCode', '~> 1.0.8'
     end
 
    ## 演示代码
