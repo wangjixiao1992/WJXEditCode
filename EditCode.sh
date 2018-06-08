@@ -6,7 +6,7 @@ project_name=Ascents
 #工程绝对路径
 project_path=$(dirname $0)
 #混淆代码文件路径
-folder_path=${project_path}/${project_name}/Class
+folder_path=${project_path}/${project_name}
 #替换文本路径
 place_path=${project_path}/Pods/${project_name}
 #文本标记
