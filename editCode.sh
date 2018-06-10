@@ -16,7 +16,9 @@ place_path=${project_path}/Pods/${project_name}
 #文本标记
 number=10
 
-# 添加代码便利
+
+#============== 添加 ========================#
+# 添加代码遍历
 function indesertFolderRead_source_file_recursively {
     if [[ -d $1 ]]; then
         for item in $(ls $1); do
@@ -28,7 +30,7 @@ function indesertFolderRead_source_file_recursively {
             # 文件
                 suffix="${item##*.}"
                 if [ "$suffix" = "m" ];then
-                    search_source_file_recursively ${itemPath}
+                    insertSearch_source_file_recursively ${itemPath}
                 fi
             fi
         done
@@ -51,23 +53,23 @@ function insertCode_source_file_recursively {
 }
 
 # 找出最后一行@end
-function search_source_file_recursively {
+function insertSearch_source_file_recursively {
     min=`sed -n '$p' $1`
     if [  -z "$min" ]; then
         sed -i -r '$d' $1
         rm -rf $1'-r'
-        search_source_file_recursively $1
+        insertSearch_source_file_recursively $1
     else
         if [ "$min" = "@end" ]; then
             insertCode_source_file_recursively $1
         else
-            echo "$1文件不用添加"
+            echo "$1文件不用添加代码"
         fi
     fi
 }
 
-
-# 递归函数读取目录下的所有.m文件
+#============== 删除 ========================#
+# 删除代码遍历
 function deleteRead_source_file_recursively {
     if [[ -d $1 ]]; then
         for item in $(ls $1); do
@@ -77,8 +79,9 @@ function deleteRead_source_file_recursively {
                 deleteRead_source_file_recursively $itemPath
             else
             # 文件
-                if [[ $(expr "$item" : '.*\.m') -gt 0 ]]; then
-                   deleteCode_source_file_recursively ${itemPath}
+                suffix="${item##*.}"
+                if [ "$suffix" = "m" ];then
+                   deleteSearch_source_file_recursively ${itemPath}
                 fi
             fi
         done
@@ -87,12 +90,30 @@ function deleteRead_source_file_recursively {
     fi
 }
 
-# 递归函数读取目录下的所有.m文件
+
+
+# 删除文件代码
 function deleteCode_source_file_recursively {
     sed -i -r '/代码添加开始/,/代码添加结束/d' $1
     implement_source_file_array[$implement_source_file_count]=${itemPath}
     implement_source_file_count=$[ implement_source_file_count + 1 ];
     rm -rf $1'-r'
+}
+
+# 找出最后一行@end
+function deleteSearch_source_file_recursively {
+    min=`sed -n '$p' $1`
+    if [  -z "$min" ]; then
+        sed -i -r '$d' $1
+        rm -rf $1'-r'
+        deleteSearch_source_file_recursively $1
+    else
+        if [ "$min" = "@end" ]; then
+            deleteCode_source_file_recursively $1
+        else
+            echo "$1文件不用删除代码"
+        fi
+    fi
 }
 
 #============== 操作区域 ========================#
