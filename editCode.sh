@@ -4,7 +4,11 @@
 project_name=xxxxxx
 #打包模式
 #工程绝对路径
-project_path=$(dirname $0)
+current_path=$(cd "$(dirname "$0")"; pwd)
+father_path=$(dirname $(pwd))
+cd $father_path
+pwd=$father_path
+project_path=$(dirname $(pwd))
 #混淆代码文件路径
 folder_path=${project_path}/${project_name}
 #替换文本路径
@@ -22,7 +26,8 @@ function indesertFolderRead_source_file_recursively {
                 indesertFolderRead_source_file_recursively $itemPath
             else
             # 文件
-                if [[ $(expr "$item" : '.*\.m') -gt 0 ]]; then
+                suffix="${item##*.}"
+                if [ "$suffix" = "m" ];then
                     search_source_file_recursively ${itemPath}
                 fi
             fi

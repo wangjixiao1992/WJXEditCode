@@ -4,14 +4,14 @@
     批量添加代码,降低重复率!
 
    ## 版本
-    1.0.8
+    1.0.9
     
    ## 版本
     source 'https://github.com/wangjixiao1992/WJXEditCode.git'
     platform :ios, '8.0'
     
     target 'TargetName' do
-    pod 'WJXEditCode', '~> 1.0.8'
+    pod 'WJXEditCode', '~> 1.0.9'
     end
 
    ## 演示代码
@@ -19,8 +19,8 @@
     在WJXEditCode文件夹下找到editCode.sh文件打开修改参数
     1.#工程名
     project_name=xxxxxx
-    2.#混淆代码文件路径(主要是这个,这里面是你要混淆的代码所在文件夹)
-    folder_path=${project_path}/${project_name}/Class
+    2.#混淆代码文件路径(主要是这个,这里面是你要混淆的代码所在文件夹,如果不修改则会混淆全部代码.m的)
+    folder_path=${project_path}/${project_name}
     二.
     1.修改示例代码place0.text......文件(place.m 是留给编写代码检查报错)
     
