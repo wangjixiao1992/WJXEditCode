@@ -1,7 +1,7 @@
 #!/bin/bash
 #============== 路径信息 ========================#
 #工程名
-project_name=xxxxxx
+project_name=XXXXXXXXXX
 #打包模式
 #工程绝对路径
 current_path=$(cd "$(dirname "$0")"; pwd)
@@ -110,7 +110,7 @@ function deleteCode_source_file_recursively {
     rm -rf $1'-r'
 }
 
-# 找出最后一行@end
+# 找出最后一行}
 function deleteSearch_source_file_recursively {
     min=`sed -n '$p' $1`
     if [  -z "$min" ]; then
@@ -127,23 +127,30 @@ function deleteSearch_source_file_recursively {
 }
 
 #============== 操作区域 ========================#
-read  -p "请输入语言类型(1.OC 2.Swift):" word
-if [ $word == 1 ];then
-place_pathType=m
-place_pathEndSign=@end
-else
-place_pathType=swift
-place_pathEndSign=}
-fi
-
 read  -p "请输入操作模式(1.加代码 2.移除代码):" mode
 if [ $mode == 1 ];then
-echo '*******************************  开始添加代码  *******************************'
-indesertFolderRead_source_file_recursively ${folder_path}
-echo '*******************************  添加代码完毕  *******************************'
+    read  -p "请输入语言类型(1.OC 2.Swift):" word
+    if [ $word == 1 ];then
+        place_pathType=m
+        place_pathEndSign=@end
+    else
+        place_pathType=swift
+        place_pathEndSign=}
+    fi
+    echo '*******************************  开始添加代码  *******************************'
+    indesertFolderRead_source_file_recursively ${folder_path}
+    echo '*******************************  添加代码完毕  *******************************'
 else
-echo '*******************************  移除添加的代码  *******************************'
-deleteRead_source_file_recursively ${folder_path}
-echo '*******************************  移除代码完毕  *******************************'
+    read  -p "请输入语言类型(1.OC 2.Swift):" word
+    if [ $word == 1 ];then
+        place_pathType=m
+        place_pathEndSign=@end
+    else
+        place_pathType=swift
+        place_pathEndSign=}
+    fi
+    echo '*******************************  移除添加的代码  *******************************'
+    deleteRead_source_file_recursively ${folder_path}
+    echo '*******************************  移除代码完毕  *******************************'
 fi
 
