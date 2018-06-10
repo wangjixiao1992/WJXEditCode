@@ -12,7 +12,10 @@ project_path=$(dirname $(pwd))
 #混淆代码文件路径
 folder_path=${project_path}/${project_name}
 #替换文本路径
-place_path=${project_path}/Pods/${project_name}
+place_path=${project_path}/Pods/WJXEditCode
+#文件类型
+place_pathType=m
+place_pathEndSign=@end
 #文本标记
 number=10
 
@@ -29,7 +32,7 @@ function indesertFolderRead_source_file_recursively {
             else
             # 文件
                 suffix="${item##*.}"
-                if [ "$suffix" = "m" ];then
+                if [ "$suffix" = "$place_pathType" ];then
                     insertSearch_source_file_recursively ${itemPath}
                 fi
             fi
@@ -43,10 +46,17 @@ function indesertFolderRead_source_file_recursively {
 function insertCode_source_file_recursively {
     code=$(($RANDOM%${number}))
     sed -i -r '$d' $1
-    echo "#pragma mark - 代码添加开始" >> $1
-    sed -i -r '/#pragma mark - 代码添加开始/r '${place_path}/place${code}.text'' $1
-    echo "//代码添加结束" >> $1
-    echo "@end" >> $1
+    if [ "$place_pathType" = "m" ];then
+        echo "#pragma mark - 代码添加开始" >> $1
+        sed -i -r '/#pragma mark - 代码添加开始/r '${place_path}/place${code}.text'' $1
+        echo "//代码添加结束" >> $1
+        echo "$place_pathEndSign" >> $1
+    else
+        echo "//Mark - 代码添加开始" >> $1
+        sed -i -r '/Mark - 代码添加开始/r '${place_path}/place${code}.text'' $1
+        echo "//代码添加结束" >> $1
+        echo "$place_pathEndSign" >> $1
+    fi
     implement_source_file_array[$implement_source_file_count]=${itemPath}
     implement_source_file_count=$[ implement_source_file_count + 1 ];
     rm -rf $1'-r'
@@ -60,7 +70,7 @@ function insertSearch_source_file_recursively {
         rm -rf $1'-r'
         insertSearch_source_file_recursively $1
     else
-        if [ "$min" = "@end" ]; then
+        if [ "$min" = "$place_pathEndSign" ]; then
             insertCode_source_file_recursively $1
         else
             echo "$1文件不用添加代码"
@@ -80,7 +90,7 @@ function deleteRead_source_file_recursively {
             else
             # 文件
                 suffix="${item##*.}"
-                if [ "$suffix" = "m" ];then
+                if [ "$suffix" = "$place_pathType" ];then
                    deleteSearch_source_file_recursively ${itemPath}
                 fi
             fi
@@ -108,7 +118,7 @@ function deleteSearch_source_file_recursively {
         rm -rf $1'-r'
         deleteSearch_source_file_recursively $1
     else
-        if [ "$min" = "@end" ]; then
+        if [ "$min" = "$place_pathEndSign" ]; then
             deleteCode_source_file_recursively $1
         else
             echo "$1文件不用删除代码"
@@ -117,6 +127,15 @@ function deleteSearch_source_file_recursively {
 }
 
 #============== 操作区域 ========================#
+read  -p "请输入语言类型(1.OC 2.Swift):" word
+if [ $word == 1 ];then
+place_pathType=m
+place_pathEndSign=@end
+else
+place_pathType=swift
+place_pathEndSign=}
+fi
+
 read  -p "请输入操作模式(1.加代码 2.移除代码):" mode
 if [ $mode == 1 ];then
 echo '*******************************  开始添加代码  *******************************'
