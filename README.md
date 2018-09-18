@@ -11,11 +11,14 @@
 
 ## 准备工作
 ### 修改脚本
-*  在WJXEditCode文件夹下找到editCode.sh文件打开修改参数
-    工程名
-    project_name=xxxxxx
-*  混淆代码文件路径(主要是这个,这里面是你要混淆的代码所在文件夹,如果不修改则会混淆全部代码.m的)
-    folder_path=${project_path}/${project_name}
+*  在新加文件夹
+*  放入editcode.sh和place文件夹(包含里面的place1.m...文件)
+*  拖入要添加代码的项目
+*  修改项目参数folder_path是要添加代码的文件夹路径
+   folder_path=${project_path}/${project_name}/xxxx
+*  如若place文件不够 请自行创建 修改标记数量(初始为3)
+   #文本标记
+   number=3
 
 ###  修改示例代码
 * place0.text文件
@@ -23,7 +26,7 @@
 * ......
     
 ## 使用方法
-* 使用终端进入WJXEditCode文件件
+* 使用终端进入WJXEditCode文件
 * 执行:sh editCode.sh
    
 ## 联系我们

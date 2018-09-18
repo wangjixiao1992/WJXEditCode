@@ -6,7 +6,7 @@ project_name=xxx
 #工程绝对路径
 project_path=$(dirname $0)
 #配置文件
-folder_path=${project_path}/xxx/xxxx
+folder_path=${project_path}/${project_name}/xxxx
 #替换文本路径
 place_path=${project_path}/place
 #文本标记
