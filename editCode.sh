@@ -6,7 +6,7 @@ project_name=xxx
 #工程绝对路径
 project_path=$(dirname $0)
 #配置文件
-folder_path=${project_path}/xxx/${project_name}
+folder_path=${project_path}/xxx/xxxx
 #替换文本路径
 place_path=${project_path}/place
 #文本标记
@@ -42,7 +42,9 @@ function insertCode_source_file_recursively {
     echo "@end" >> $1
     implement_source_file_array[$implement_source_file_count]=${itemPath}
     implement_source_file_count=$[ implement_source_file_count + 1 ];
-    rm -rf $1-r
+        if [[ -d $1-r ]]; then
+            rm -rf $1-r
+        fi
 }
 
 # 找出最后一行@end
@@ -50,7 +52,9 @@ function search_source_file_recursively {
     min=`sed -n '$p' $1`
     if [  -z "$min" ]; then
         sed -i -r '$d' $1
-        rm -rf $1-r
+        if [[ -d $1-r ]]; then
+            rm -rf $1-r
+        fi
         search_source_file_recursively $1
     else
         if [ "$min" = "@end" ]; then
