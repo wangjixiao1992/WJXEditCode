@@ -21,8 +21,8 @@
    number=3
 
 ###  修改示例代码
-* place0.text文件
-* place1.text文件
+* place0.m文件
+* place1.m文件
 * ......
     
 ## 使用方法
