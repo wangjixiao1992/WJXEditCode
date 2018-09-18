@@ -1,12 +1,12 @@
 #!/bin/bash
 #============== 路径信息 ========================#
 #工程名
-project_name=xxx
+project_name=WJXAlertView
 #打包模式
 #工程绝对路径
 project_path=$(dirname $0)
 #配置文件
-folder_path=${project_path}/${project_name}/xxxx
+folder_path=${project_path}/${project_name}/WJXAlertView/Class
 #替换文本路径
 place_path=${project_path}/place
 #文本标记
@@ -42,9 +42,9 @@ function insertCode_source_file_recursively {
     echo "@end" >> $1
     implement_source_file_array[$implement_source_file_count]=${itemPath}
     implement_source_file_count=$[ implement_source_file_count + 1 ];
-        if [[ -d $1-r ]]; then
-            rm -rf $1-r
-        fi
+    if [[ -d $1-r ]]; then
+        rm -rf $1-r
+    fi
 }
 
 # 找出最后一行@end
