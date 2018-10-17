@@ -32,6 +32,7 @@ function insertCode {
         implement_source_file_count=$[ implement_source_file_count + 1 ];
     else
         echo '*******************************  拼接文件不存在 *******************************'
+        echo '*******************************  请创建${palce}文件 *******************************'
     fi
     deleteEditFile ${path}
 }
