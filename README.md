@@ -1,19 +1,32 @@
 # WJXEditCode
     
 ## 介绍
-* 批量添加代码,降低重复率!支持OC/Swift
+* 批量添加代码,降低重复率!支持OC/Swift,同时实现马甲包添加垃圾代码!
 
 ## 版本
 * 1.1.1
     
 
 ## 准备工作
-### 修改脚本
+### 修改脚本(低配版)
 *  新建文件夹
 *  放入editcode.sh和place文件夹(包含里面的place.m...文件)
 *  拖入要添加代码的项目
-*  修改项目参数folder_path是要添加代码的文件夹路径
-   folder_path=${project_path}/${project_name}/xxxx
+*  修改项目参数文件夹路径
+
+   project_name=项目名字
+ 
+   folder_path=需要遍历的文件夹
+   
+### 修改脚本(高配版)
+*  新建文件夹
+*  放入editcode.sh和place文件夹(包含里面的place.m...文件)
+*  拖入要添加代码的项目
+*  修改项目参数文件夹路径
+
+   project_name=项目名字
+ 
+   folder_path=需要遍历的文件夹
 
 
 ## 使用方法
