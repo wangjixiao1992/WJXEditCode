@@ -10,18 +10,16 @@ folder_path=${project_path}/${project_name}/${project_name}/Class
 #替换文本路径
 place_path=${project_path}/place
 
-# 拼接文件
-function deleteFile_source_file_recursively {
+# 删除文件
+function deleteEditFile {
     path=$1
     if [[ -f ${path}-r ]]; then
         rm -rf ${path}-r
-    else
-        echo "${path}文件不存在"
     fi
 }
 
 # 拼接文件
-function insertCode_source_file_recursively {
+function insertCode {
     path=$1
     sed -i -r '$d' ${path}
     echo "#pragma mark - 测试代码现在开始添加" >> ${path}
@@ -30,19 +28,19 @@ function insertCode_source_file_recursively {
     echo "@end" >> ${path}
     implement_source_file_array[$implement_source_file_count]=${itemPath}
     implement_source_file_count=$[ implement_source_file_count + 1 ];
-    deleteFile_source_file_recursively ${path}
+    deleteEditFile ${path}
 }
 
 # 找出最后一行
-function search_source_file_recursively {
+function searchEnd {
     path=$1
     min=`sed -n '$p' ${path}`
     if [  -z "$min" ]; then
         sed -i -r '$d' ${path}
-        search_source_file_recursively ${path}
+        searchEnd ${path}
     else
         if [ "$min" = "@end" ]; then
-            insertCode_source_file_recursively ${path}
+            insertCode ${path}
         else
             echo "${path}文件不用添加"
         fi
@@ -50,17 +48,17 @@ function search_source_file_recursively {
 }
 
 # 文件便利
-function indesertFolderRead_source_file_recursively {
+function editConvenientFile {
     if [[ -d $1 ]]; then
         for item in $(ls $1); do
             itemPath="$1/${item}"
             if [[ -d $itemPath ]]; then
                 # 目录
-                indesertFolderRead_source_file_recursively $itemPath
+                editConvenientFile $itemPath
             else
                 # 文件
                 if [[ $(expr "$item" : '.*\.m') -gt 0 ]]; then
-                    search_source_file_recursively ${itemPath}
+                    searchEnd ${itemPath}
                 fi
             fi
         done
@@ -69,5 +67,5 @@ function indesertFolderRead_source_file_recursively {
     fi
 }
 
-indesertFolderRead_source_file_recursively ${folder_path}
+editConvenientFile ${folder_path}
 
