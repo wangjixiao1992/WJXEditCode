@@ -10,16 +10,55 @@ folder_path=${project_path}/${project_name}/${project_name}/Class
 #替换文本路径
 place_path=${project_path}/place
 
-# 添加代码便利
+# 拼接文件
+function deleteFile_source_file_recursively {
+    path=$1
+    if [[ -f ${path}-r ]]; then
+        rm -rf ${path}-r
+    else
+        echo "${path}文件不存在"
+    fi
+}
+
+# 拼接文件
+function insertCode_source_file_recursively {
+    path=$1
+    sed -i -r '$d' ${path}
+    echo "#pragma mark - 测试代码现在开始添加" >> ${path}
+    sed -i -r '/#pragma mark - 测试代码现在开始添加/r '${place_path}/place.m'' ${path}
+    echo "#pragma mark - 测试代码现在结束添加" >> ${path}
+    echo "@end" >> ${path}
+    implement_source_file_array[$implement_source_file_count]=${itemPath}
+    implement_source_file_count=$[ implement_source_file_count + 1 ];
+    deleteFile_source_file_recursively ${path}
+}
+
+# 找出最后一行
+function search_source_file_recursively {
+    path=$1
+    min=`sed -n '$p' ${path}`
+    if [  -z "$min" ]; then
+        sed -i -r '$d' ${path}
+        search_source_file_recursively ${path}
+    else
+        if [ "$min" = "@end" ]; then
+            insertCode_source_file_recursively ${path}
+        else
+            echo "${path}文件不用添加"
+        fi
+    fi
+}
+
+# 文件便利
 function indesertFolderRead_source_file_recursively {
     if [[ -d $1 ]]; then
         for item in $(ls $1); do
             itemPath="$1/${item}"
             if [[ -d $itemPath ]]; then
-            # 目录
+                # 目录
                 indesertFolderRead_source_file_recursively $itemPath
             else
-            # 文件
+                # 文件
                 if [[ $(expr "$item" : '.*\.m') -gt 0 ]]; then
                     search_source_file_recursively ${itemPath}
                 fi
@@ -27,38 +66,6 @@ function indesertFolderRead_source_file_recursively {
         done
     else
         echo '*******************************  目录出错  *******************************'
-    fi
-}
-
-# 拼接文件
-function insertCode_source_file_recursively {
-    sed -i -r '$d' $1
-    echo "#pragma mark - 测试代码现在开始添加" >> $1
-    sed -i -r '/#pragma mark - 测试代码现在开始添加/r '${place_path}/place.m'' $1
-    echo "#pragma mark - 测试代码现在结束添加" >> $1
-    echo "@end" >> $1
-    implement_source_file_array[$implement_source_file_count]=${itemPath}
-    implement_source_file_count=$[ implement_source_file_count + 1 ];
-    if [[ -d $1-r ]]; then
-        rm -rf $1-r
-    fi
-}
-
-# 找出最后一行
-function search_source_file_recursively {
-    min=`sed -n '$p' $1`
-    if [  -z "$min" ]; then
-        sed -i -r '$d' $1
-        if [[ -d $1-r ]]; then
-            rm -rf $1-r
-        fi
-        search_source_file_recursively $1
-    else
-        if [ "$min" = "@end" ]; then
-            insertCode_source_file_recursively $1
-        else
-            echo "$1文件不用添加"
-        fi
     fi
 }
 
