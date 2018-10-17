@@ -9,8 +9,6 @@ project_path=$(dirname $0)
 folder_path=${project_path}/${project_name}/${project_name}/Class
 #替换文本路径
 place_path=${project_path}/place
-#文本标记
-number=3
 
 # 添加代码便利
 function indesertFolderRead_source_file_recursively {
@@ -64,7 +62,5 @@ function search_source_file_recursively {
     fi
 }
 
-
-#============== 操作区域 ========================#
 indesertFolderRead_source_file_recursively ${folder_path}
 
