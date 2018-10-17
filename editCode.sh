@@ -21,13 +21,18 @@ function deleteEditFile {
 # 拼接文件
 function insertCode {
     path=$1
-    sed -i -r '$d' ${path}
-    echo "#pragma mark - 测试代码现在开始添加" >> ${path}
-    sed -i -r '/#pragma mark - 测试代码现在开始添加/r '${place_path}/place.m'' ${path}
-    echo "#pragma mark - 测试代码现在结束添加" >> ${path}
-    echo "@end" >> ${path}
-    implement_source_file_array[$implement_source_file_count]=${itemPath}
-    implement_source_file_count=$[ implement_source_file_count + 1 ];
+    palce=${place_path}/place.m
+    if [ -f $palce ];then
+        sed -i -r '$d' ${path}
+        echo "#pragma mark - 测试代码现在开始添加" >> ${path}
+        sed -i -r '/#pragma mark - 测试代码现在开始添加/r '${palce}'' ${path}
+        echo "#pragma mark - 测试代码现在结束添加" >> ${path}
+        echo "@end" >> ${path}
+        implement_source_file_array[$implement_source_file_count]=${itemPath}
+        implement_source_file_count=$[ implement_source_file_count + 1 ];
+    else
+        echo '*******************************  拼接文件不存在 *******************************'
+    fi
     deleteEditFile ${path}
 }
 
@@ -66,6 +71,9 @@ function editConvenientFile {
         echo '*******************************  目录出错  *******************************'
     fi
 }
+
+#============== 操作区域 ========================#
+
 
 editConvenientFile ${folder_path}
 
